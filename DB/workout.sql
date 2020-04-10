@@ -16,21 +16,11 @@ CREATE SCHEMA IF NOT EXISTS `workoutDB` DEFAULT CHARACTER SET utf8 ;
 USE `workoutDB` ;
 
 -- -----------------------------------------------------
--- Table `table1`
+-- Table `workout`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `table1` ;
+DROP TABLE IF EXISTS `workout` ;
 
-CREATE TABLE IF NOT EXISTS `table1` (
-)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `workouts`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `workouts` ;
-
-CREATE TABLE IF NOT EXISTS `workouts` (
+CREATE TABLE IF NOT EXISTS `workout` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `workout` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
@@ -51,11 +41,6 @@ DROP VIEW IF EXISTS `view1` ;
 USE `workoutDB`;
 
 SET SQL_MODE = '';
-DROP USER IF EXISTS user1;
-SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-CREATE USER 'user1';
-
-SET SQL_MODE = '';
 DROP USER IF EXISTS workout@localhost;
 SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 CREATE USER 'workout'@'localhost' IDENTIFIED BY 'workout';
@@ -66,11 +51,11 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `workouts`
+-- Data for table `workout`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `workoutDB`;
-INSERT INTO `workouts` (`id`, `workout`) VALUES (1, 'test');
+INSERT INTO `workout` (`id`, `workout`) VALUES (1, 'test');
 
 COMMIT;
 
