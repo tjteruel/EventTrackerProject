@@ -43,7 +43,8 @@ class WorkoutTest {
 	@Test
 	void test_Workout_Mapping() {
 		assertNotNull(workout);
-		assertEquals("test", workout.getWorkout());
+		assertEquals("Murph", workout.getWorkout());
+		assertEquals("crossfit", workout.getCategory());
 	}
 
 }
