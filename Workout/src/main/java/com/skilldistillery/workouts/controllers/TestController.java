@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,5 +74,22 @@ public class TestController {
 		Workout updatedflight = workSvc.updateWorkout(workout, id);
 		return updatedflight;
 	}
+	
+	// delete Workout
+	@DeleteMapping("delete/{id}")
+	public void deleteWorkout(@PathVariable Integer id,HttpServletResponse response) {
+		if (workSvc.deleteWorkout(id)) {
+			response.setStatus(204);
+		}
+		else {
+			response.setStatus(404);
+		}
+	}
+	
+	//search by keyword
+		@GetMapping("workouts/search/{keyword}")
+		public List<Workout> postSearchKeyword(@PathVariable String keyword) {
+			return workSvc.searchByKeyword(keyword);
+		}
 
 }

@@ -9,5 +9,8 @@ public interface WorkoutService {
 	Workout findById(int id);
 	Workout addWorkout(Workout workout);
 	Workout updateWorkout(Workout workout, int id);
+	public boolean deleteWorkout(int id);
+	List<Workout> searchByKeyword(String keyword);
+
 
 }
