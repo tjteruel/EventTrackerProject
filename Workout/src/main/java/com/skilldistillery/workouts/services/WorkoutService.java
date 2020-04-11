@@ -8,6 +8,6 @@ public interface WorkoutService {
 	List<Workout> findAll();
 	Workout findById(int id);
 	Workout addWorkout(Workout workout);
-
+	Workout updateWorkout(Workout workout, int id);
 
 }

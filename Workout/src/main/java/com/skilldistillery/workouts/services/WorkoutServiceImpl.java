@@ -22,7 +22,8 @@ public class WorkoutServiceImpl implements WorkoutService {
 
 	@Override
 	public Workout findById(int id) {
-		return workRepo.findById(id);
+		Optional<Workout> workout = workRepo.findById(id);
+		return workout.get();
 	}
 
 	@Override
@@ -34,6 +35,16 @@ public class WorkoutServiceImpl implements WorkoutService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public Workout updateWorkout(Workout workout, int id) {
+		Optional <Workout> updatedWorkout = workRepo.findById(id);
+		if (updatedWorkout.isPresent()) {
+			workout.setId(id);
+			workRepo.saveAndFlush(workout);
+		}
+		return workout;
 	}
 
 }
