@@ -8,6 +8,6 @@ import com.skilldistillery.workouts.entities.Workout;
 
 public interface WorkoutRepository extends JpaRepository<Workout, Integer>{
 	List<Workout> findAll();
-
-
+	Workout findById(int id);
+//	Workout addWorkout(Workout workout);
 }
