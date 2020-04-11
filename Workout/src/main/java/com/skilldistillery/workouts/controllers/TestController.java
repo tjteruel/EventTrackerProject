@@ -22,7 +22,6 @@ import com.skilldistillery.workouts.services.WorkoutService;
 @RequestMapping("api")
 public class TestController {
 
-	
 	@Autowired
 	private WorkoutService workSvc;
 
@@ -32,35 +31,39 @@ public class TestController {
 		return "pong";
 	}
 
-	//Find All Workouts
+	// Find All Workouts
 	@GetMapping("workouts")
 	public List<Workout> findAll() {
 		return workSvc.findAll();
 	}
-	
-	//Find Workout By ID
+
+	// Find Workout By ID
 	@GetMapping("workouts/{id}")
-	public Workout findById(@PathVariable Integer id, HttpServletResponse response){
+	public Workout findById(@PathVariable Integer id, HttpServletResponse response) {
 		Workout workout = workSvc.findById(id);
-		if(workout == null) {
+		if (workout == null) {
 			response.setStatus(404);
 		}
 		return workout;
 	}
-	
-	//create Workout
-//	@PostMapping("workouts")
-//	public Workout createWorkout(@RequestBody Workout workout, HttpServletRequest request, HttpServletResponse response) {
-//		try {
-//			Workout newWorkout = workSvc.addWorkout(workout);
-//			response.setStatus(201);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			response.setStatus(400);
-//			workout=null;
-//		}
-//		return workout;
-//	}
-		
+
+	// create Workout
+	@PostMapping("workouts")
+	public Workout createWorkout(@RequestBody Workout workout, HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			Workout newWorkout = workSvc.addWorkout(workout);
+			response.setStatus(201);
+			StringBuffer url = request.getRequestURL();
+			url.append("/").append(workout.getId());
+			String location = url.toString();
+			response.addHeader("Location", location);
+			return newWorkout;
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(400);
+			return null;
+		}
+	}
 
 }

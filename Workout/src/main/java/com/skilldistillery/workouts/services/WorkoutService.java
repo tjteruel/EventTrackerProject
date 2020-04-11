@@ -7,7 +7,7 @@ import com.skilldistillery.workouts.entities.Workout;
 public interface WorkoutService {
 	List<Workout> findAll();
 	Workout findById(int id);
-//	Workout addWorkout(Workout workout);
+	Workout addWorkout(Workout workout);
 
 
 }

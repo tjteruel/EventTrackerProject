@@ -25,15 +25,15 @@ public class WorkoutServiceImpl implements WorkoutService {
 		return workRepo.findById(id);
 	}
 
-//	@Override
-//	public Workout addWorkout(Workout workout) {
-//		try {
-//			workout = workRepo.saveAndFlush(workout);
-//			return workout;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
+	@Override
+	public Workout addWorkout(Workout workout) {
+		try {
+			workout = workRepo.saveAndFlush(workout);
+			return workout;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }
