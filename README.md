@@ -33,4 +33,4 @@ In the projects current state tests can be run through PostMan. The user will be
 * Zoom
 
 ### Lessons Learned
-I misnamed my packages in the Boot project which caused my PostMan tests to fail. Fortunately, our TA's were available to assist over Zoom. Their second set of eyes helped me find this discrepancy and continue on with my project.
+I misnamed my packages in the Boot project which caused my PostMan tests to fail. Fortunately, our TA's were available to assist over Zoom. Their second set of eyes helped me find this discrepancy and continue on with my project. Throughout this project I was reinforcing what we learned in class this past week with Rest and how the routes work between repositories and services.
