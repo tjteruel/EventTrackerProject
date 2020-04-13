@@ -22,15 +22,15 @@ In the projects current state tests can be run through PostMan. The user will be
 
 
 ### Technologies Used
--Spring REST
--Spring Data JPA
--Spring Tool Suite
--J-Unit Jupiter
--JSON
--PostMan
--HTTP
--Gradle
--Zoom
+..-Spring REST
+..-Spring Data JPA
+..-Spring Tool Suite
+..-J-Unit Jupiter
+..-JSON
+..-PostMan
+..-HTTP
+..-Gradle
+..-Zoom
 
 ### Lessons Learned
 I misnamed my packages in the Boot project which caused my PostMan tests to fail. Fortunately, our TA's were available to assist over Zoom. Their second set of eyes helped me find this discrepancy and continue on with my project.
