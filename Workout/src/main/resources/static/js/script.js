@@ -206,6 +206,7 @@ function getWorkout(workoutId){
 	
 	}
 	  
+	//displays single workout details from clicking on workout name
 	function workoutDetail(workout) {
 
 		let singleWorkoutData = document.getElementById('singleWorkoutData');
@@ -254,4 +255,113 @@ function getWorkout(workoutId){
 	
 	
 	}
+		//edits workouts
+	function editWorkout(workoutObj) {
+
+		let editCrimeDataDiv = document.getElementById('editWorkoutDiv');
 	
+		// create the form, give it a name
+		var form = document.createElement('form');
+		form.name = 'editForm';
+	
+		// fields for form
+		var workoutInput = document.createElement('input');
+		workoutInput.name = 'id'; // assign a name attribute
+		workoutInput.type = 'hidden'; // assign a type attribute
+		workoutInput.value = workoutObj.id; // assign the id value
+		form.appendChild(workoutInput);
+	
+		var workoutName = document.createElement('input');
+		workoutName.workout = 'workoutName'; 
+		workoutName.type = 'text'; 
+		workoutName.placeholder = workoutObj.workoutName; //assign workout name value
+		form.appendChild(workoutName);
+	
+		var categoryInput = document.createElement('input');
+		categoryInput.name = 'categoryInput'; 
+		categoryInput.type = 'text'; 
+		categoryInput.placeholder = workoutObj.categoryInput; //assign workout category value
+		form.appendChild(categoryInput);
+
+		var muscleInput = document.createElement('input');
+		muscleInput.name = 'muscleInput'; 
+		muscleInput.type = 'text'; 
+		muscleInput.placeholder = workoutObj.muscleInput; //assign workout target muscle value
+		form.appendChild(muscleInput);
+
+		var dateInput = document.createElement('input');
+		dateInput.name = 'dateInput'; 
+		dateInput.type = 'text'; 
+		dateInput.placeholder = workoutObj.dateInput; //assign workout date value
+		form.appendChild(dateInput);
+
+		var recordInput = document.createElement('input');
+		recordInput.name = 'recordInput'; 
+		recordInput.type = 'text'; 
+		recordInput.placeholder = workoutObj.recordInput; //assign workout record value
+		form.appendChild(recordInput);
+		
+		var workDescInput = document.createElement('input');
+		workDescInput.name = 'workDescInput'; 
+		workDescInput.type = 'text'; 
+		workDescInput.placeholder = workoutObj.workDescInput; //assign workout description value
+		form.appendChild(workDescInput);
+
+		var resourceInput = document.createElement('input');
+		resourceInput.name = 'resourceInput'; 
+		resourceInput.type = 'text'; 
+		resourceInput.placeholder = workoutObj.resourceInput; //assign workout resources value
+		form.appendChild(resourceInput);
+
+		var resourceInput = document.createElement('input');
+		resourceInput.name = 'resourceInput'; 
+		resourceInput.type = 'text'; 
+		resourceInput.placeholder = workoutObj.resourceInput; //assign workout resources value
+		form.appendChild(resourceInput);
+
+		var submit = document.createElement('input');
+		submit.name = 'submit'; 
+		submit.type = 'submit'; 
+		submit.value = 'Submit Form'; // assign a value attribute
+	
+		submit.addEventListener('click', function (e) { // Assign an event listener to the submit button variable
+			e.preventDefault();
+			var form = e.target.parentElement;
+	
+			// reassign the crime with updated info
+			workoutObj.workoutName = form.workoutName.value;
+			workoutObj.workDescInput = form.workDescInput.value;
+	
+			// PUT request, update crime
+			updateCrime(workoutObj);
+			editWorkoutDiv.textContent = '';
+			let singleWorkoutData = document.getElementById('singleWorkoutData');
+			singleWorkoutData.textContent = '';
+			// clear the form data
+			form.reset();
+			getWorkouts();
+		});
+		form.appendChild(submit); //append submit to form
+		editCrimeDataDiv.appendChild(form); //append form to div
+	}
+	
+	function getWorkouts() {
+		let xhr = new XMLHttpRequest();
+		xhr.open('GET', 'api/workouts/');
+		xhr.onreadystatechange = function () {
+			// If status is below error range, and readyState is 4 (DONE)
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4 && xhr.status < 400) {
+				  var allWorkouts = JSON.parse(xhr.responseText);
+				  console.log(allWorkouts)
+				  displayAllWorkouts(allWorkouts);
+				}
+			
+				if (xhr.readyState === 4 && xhr.status >= 400) {
+				  console.error(xhr.status + ': ' + xhr.responseText);
+				}
+			  };
+			
+			  xhr.send(null);
+			}
+		}
