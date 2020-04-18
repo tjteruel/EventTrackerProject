@@ -191,7 +191,7 @@ function getWorkout(workoutId){
 	
 			tbodyData2.textContent = value.workout;
 			tbodyData2.addEventListener('click', function (e) {
-				// crimeDetail(value);
+				workoutDetail(value);
 			});
 			tbodyRow.appendChild(tbodyData2);
 	
@@ -206,3 +206,52 @@ function getWorkout(workoutId){
 	
 	}
 	  
+	function workoutDetail(workout) {
+
+		let singleWorkoutData = document.getElementById('singleWorkoutData');
+		singleWorkoutData.textContent = '';
+	
+		let h2Title = document.createElement('h2');
+		h2Title.textContent = workout.workout;
+		singleWorkoutData.appendChild(h2Title);
+	
+		let description = document.createElement('p');
+		description.textContent = workout.description;
+		singleWorkoutData.appendChild(description);
+	
+		let btnBack = document.createElement('button');
+		btnBack.textContent = "Back";
+	
+		// edit and back button event listeners
+		let btnEdit = document.createElement('button');
+		btnEdit.textContent = "Edit Workout";
+	
+		let btnDelete = document.createElement('button');
+		btnDelete.textContent = "Delete Workout";
+	
+		btnBack.addEventListener('click', function (e) {
+			singleWorkoutData.textContent = '';
+			displayAllWorkouts();
+		});
+	
+		btnEdit.addEventListener('click', function (e) {
+			// editCrime(crime);
+			displayAllWorkouts();
+	
+		});
+	
+		btnDelete.addEventListener('click', function (e) {
+			e.preventDefault();
+			// deleteCrime(crime);
+			singleWorkoutData.textContent = '';
+			displayAllWorkouts();
+		});
+	
+		// append the buttons to the crime detail
+		singleWorkoutData.appendChild(btnBack);
+		singleWorkoutData.appendChild(btnEdit);
+		singleWorkoutData.appendChild(btnDelete);
+	
+	
+	}
+	
