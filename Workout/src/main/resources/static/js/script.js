@@ -148,23 +148,20 @@ function getWorkout(workoutId){
 		xhr.send(null);
 	  }
 
-
+	  //displays a table of all workouts
 	  function displayAllWorkouts(allWorkouts) {
 		let allDiv = document.getElementById('allWorkoutsDiv');
 		allDiv.textContent = '';
 	
+		//create table
 		let table = document.createElement('table');
-	
 		let thead = document.createElement('thead');
-	
 		let headRow = document.createElement('tr');
-	
+		//create table headers
 		let th1 = document.createElement('th');
 		th1.textContent = 'Id';
-	
 		let th2 = document.createElement('th');
 		th2.textContent = 'Workout Name';
-	
 		let th3 = document.createElement('th');
 		th3.textContent = 'Description';
 	
@@ -176,27 +173,27 @@ function getWorkout(workoutId){
 		table.appendChild(thead);
 	
 		let tbody = document.createElement('tbody');
-	
+		//loop through workouts and add to table
 		allWorkouts.forEach(function (value, index, array) {
 	
 			let tbodyRow = document.createElement('tr');
 	
-			let tbodyData1 = document.createElement('td');
-			let tbodyData2 = document.createElement('td');
-			let tbodyData3 = document.createElement('td');
+			let tableWorkoutId = document.createElement('td');
+			let tableWorkoutName = document.createElement('td');
+			let tableWorkoutDescription = document.createElement('td');
 	
-			tbodyData1.textContent = value.id + ')';
-			tbodyRow.appendChild(tbodyData1);
+			tableWorkoutId.textContent = value.id + ')';
+			tbodyRow.appendChild(tableWorkoutId);
 	
 	
-			tbodyData2.textContent = value.workout;
-			tbodyData2.addEventListener('click', function (e) {
+			tableWorkoutName.textContent = value.workout;
+			tableWorkoutName.addEventListener('click', function (e) { //make the name clickable, display workout data
 				workoutDetail(value);
 			});
-			tbodyRow.appendChild(tbodyData2);
+			tbodyRow.appendChild(tableWorkoutName);
 	
-			tbodyData3.textContent = value.description;
-			tbodyRow.appendChild(tbodyData3);
+			tableWorkoutDescription.textContent = value.description;
+			tbodyRow.appendChild(tableWorkoutDescription);
 	
 			tbody.appendChild(tbodyRow);
 			table.appendChild(tbody);
@@ -211,14 +208,39 @@ function getWorkout(workoutId){
 
 		let singleWorkoutData = document.getElementById('singleWorkoutData');
 		singleWorkoutData.textContent = '';
-	
+
+		//displays and appends workout details
 		let h2Title = document.createElement('h2');
 		h2Title.textContent = workout.workout;
 		singleWorkoutData.appendChild(h2Title);
+
+		let h1category = document.createElement('p');
+		h1category.textContent = workout.category;
+		singleWorkoutData.appendChild(h1category);
+
+		let target = document.createElement('p');
+		target.textContent = workout.targetMuscle;
+		singleWorkoutData.appendChild(target);
+
+		let date = document.createElement('p');
+		date.textContent = workout.dateCompleted;
+		singleWorkoutData.appendChild(date);
+
+		let record = document.createElement('p');
+		record.textContent = workout.record;
+		singleWorkoutData.appendChild(record);
 	
 		let description = document.createElement('p');
-		description.textContent = workout.description;
+		description.textContent = 'Description: ' + workout.description;
 		singleWorkoutData.appendChild(description);
+
+		let resources = document.createElement('p');
+		resources.textContent = 'Resources: ' + workout.resources;
+		singleWorkoutData.appendChild(resources);
+
+		let notes = document.createElement('p');
+		notes.textContent = 'Notes: ' + workout.notes;
+		singleWorkoutData.appendChild(notes);
 	
 		let btnBack = document.createElement('button');
 		btnBack.textContent = "Back";
@@ -232,37 +254,35 @@ function getWorkout(workoutId){
 	
 		btnBack.addEventListener('click', function (e) {
 			singleWorkoutData.textContent = '';
-			displayAllWorkouts();
+			getWorkouts();
 		});
 	
 		btnEdit.addEventListener('click', function (e) {
-			// editCrime(crime);
-			displayAllWorkouts();
+			editWorkout(workout);
+			getWorkouts();
 	
 		});
 	
 		btnDelete.addEventListener('click', function (e) {
 			e.preventDefault();
-			// deleteCrime(crime);
+			// deleteWorkout(workout);
 			singleWorkoutData.textContent = '';
-			displayAllWorkouts();
+			getWorkouts();
 		});
 	
-		// append the buttons to the crime detail
+		// append the buttons to the workout detail
 		singleWorkoutData.appendChild(btnBack);
 		singleWorkoutData.appendChild(btnEdit);
 		singleWorkoutData.appendChild(btnDelete);
-	
-	
 	}
+
 		//edits workouts
 	function editWorkout(workoutObj) {
-
 		let editCrimeDataDiv = document.getElementById('editWorkoutDiv');
-	
 		// create the form, give it a name
 		var form = document.createElement('form');
 		form.name = 'editForm';
+		var div = document.createElement('div');
 	
 		// fields for form
 		var workoutInput = document.createElement('input');
@@ -270,7 +290,7 @@ function getWorkout(workoutId){
 		workoutInput.type = 'hidden'; // assign a type attribute
 		workoutInput.value = workoutObj.id; // assign the id value
 		form.appendChild(workoutInput);
-	
+		
 		var workoutName = document.createElement('input');
 		workoutName.workout = 'workoutName'; 
 		workoutName.type = 'text'; 
@@ -328,11 +348,11 @@ function getWorkout(workoutId){
 			e.preventDefault();
 			var form = e.target.parentElement;
 	
-			// reassign the crime with updated info
+			// reassign the workout with updated info
 			workoutObj.workoutName = form.workoutName.value;
 			workoutObj.workDescInput = form.workDescInput.value;
 	
-			// PUT request, update crime
+			// PUT request, update workout
 			updateCrime(workoutObj);
 			editWorkoutDiv.textContent = '';
 			let singleWorkoutData = document.getElementById('singleWorkoutData');
