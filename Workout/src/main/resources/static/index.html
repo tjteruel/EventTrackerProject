@@ -8,11 +8,33 @@
 <body>
 	<h1>Workout Tracker</h1>
 
- <!-- todo search field and button -->
+ <!-- find workout by ID-->
  <form name="workoutIdSearch">
     <input type="number" name="workoutId">
     <button name="lookup">Get Workout by Id</button>
   </form>
+
+  <!-- new event form -->
+  <form name = "newWorkout">
+	<label for="workout">Workout Title</label>
+	<input type="text" name="workout" placeholder="workout"><br>
+	<label for="category">Category</label>
+	<input type="text" name="category" placeholder="category"><br>
+	<label for="targetMuscle">Target Muscle</label>
+	<input type="text" name="targetMuscle" placeholder="targetMuscle"><br>
+	 <label for="dateCompleted">Date Completed</label>
+	<input type="text" name="dateCompleted" placeholder="dateCompleted"><br>
+	   <label for="records">records</label>
+	<input type="text" name="records" placeholder="records"><br>
+	<label for="description">description</label>
+	<input type="text" name="description" placeholder="description"><br>
+	<label for="resources">resources</label>
+	<input type="text" name="resources" placeholder="resources"><br>
+	<label for="notes">notes</label>
+	<input type="text" name="notes" placeholder="notes"><br>
+	<button type="submit" name="addWorkout" value="addWorkout">ADD WORKOUT</button>
+  </form>
+
 
  <div id="searchDiv"></div>
  <!-- todo event detail div with update/delete buttons -->

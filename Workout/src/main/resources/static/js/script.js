@@ -15,6 +15,21 @@ function init(){
 			getWorkout(workoutId);
 		}
 	});
+	document.newWorkout.addWorkout.addEventListener('click', function(event) {
+		event.preventDefault();
+		let form = document.newWorkout;
+		let film = {
+				workout: form.workout.value,
+				category: form.category.value,
+				targetMuscle: form.targetMuscle.value,
+				dateCompleted: form.dateCompleted.value,
+				records: form.records.value,
+				description: form.description.value,
+				resources: form.resources.value,
+				notes: form.notes.value
+		};
+		createWorkout(film);
+	});
 }
 
 function getWorkout(workoutId){
@@ -82,4 +97,30 @@ function getWorkout(workoutId){
 	function displayNotFound(msg) {
 		var filmDiv = document.getElementById('displayDiv');
 		filmDiv.textContent = msg;	
+	}
+
+	function createWorkout(workout) {
+		let workJson = JSON.stringify(workout);
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST', 'api/workouts');
+		xhr.setRequestHeader('Content-type', 'application/json');
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === 4) {
+				switch (xhr.status) {
+				case 200:
+				case 201:
+					workJson = xhr.responseText;
+					let workout = JSON.parse(workJson);
+					displayWorkout(workout);
+					break;
+				case 400:
+					displayNotFound("Invalid workout data: " + workJson);
+					break;
+				default:
+					displayNotFound("Error occurred: " + xhr.status);
+					break;
+				}
+			}
+		}
+		xhr.send(workJson);
 	}
