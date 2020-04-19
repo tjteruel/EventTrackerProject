@@ -30,6 +30,32 @@ function init(){
 		};
 		createWorkout(film);
 	});
+
+	document.keywordSearch.lookup.addEventListener('click', function(event) {
+		console.log('in keyword search listener');
+		event.preventDefault();
+		var keyword = document.keywordSearch.keyword.value;
+		
+		if (keyword !== null) {
+			getByKeyword(keyword);
+		}
+	});
+
+	//not functional. delete after testing?
+	document.dateRangeSearch.dateRangeButton.addEventListener('click', function(event) {
+		event.preventDefault();
+		let date1 = document.dateRangeSearch.date1.value;
+		let date2 = document.dateRangeSearch.date2.value;
+		let date1String = date1.toString();
+		let date2String = date2.toString();
+		console.log('date1: ' + date1);
+		console.log('String 1: ' + date1String);
+		console.log('date2: ' + date2);
+		console.log('String 2: ' + date2String);
+
+		searchDateRange(date1, date2);
+	});
+
 	getAllWorkouts();
 }
 
@@ -388,6 +414,155 @@ function getWorkout(workoutId){
 		};
 		var userObjectJson = JSON.stringify(workoutObj); // Convert JS object to JSON string
 		xhr.send(userObjectJson);
+	}
+
+	//GET WORKOUTS BY KEYWORD
+	function getByKeyword(keyword) {
+		console.log('in keyword search function');
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'api/workouts/search/' + keyword);
+		xhr.onreadystatechange = function() {
+		  if (xhr.readyState === 4 && xhr.status < 400) {
+			var allWorkouts = JSON.parse(xhr.responseText);
+			console.log(allWorkouts)
+			displayKeywordWorkouts(allWorkouts);
+		  }
+		  if (xhr.readyState === 4 && xhr.status >= 400) {
+			console.error(xhr.status + ': ' + xhr.responseText);
+		  }
+		};
+		xhr.send(null);
+	  }
+	
+	  //DISPLAY TABLE OF WORKOUTS FROM KEYWORD SEARCH
+	  function displayKeywordWorkouts(allWorkouts) {
+		let keywordDiv = document.getElementById('keywordSearchDiv');
+		keywordDiv.textContent = '';
+		let p = document.createElement('p');
+		p.textContent = 'There are ' + allWorkouts.length + ' workout(s) matching your keyword.'
+	
+		//create table
+		let table = document.createElement('table');
+		let thead = document.createElement('thead');
+		let headRow = document.createElement('tr');
+		//create table headers
+		let th1 = document.createElement('th');
+		th1.textContent = 'Id';
+		let th2 = document.createElement('th');
+		th2.textContent = 'Workout Name';
+		let th3 = document.createElement('th');
+		th3.textContent = 'Description';
+	
+		headRow.appendChild(th1);
+		headRow.appendChild(th2);
+		headRow.appendChild(th3);
+	
+		thead.appendChild(headRow);
+		table.appendChild(thead);
+	
+		let tbody = document.createElement('tbody');
+		//loop through workouts and add to table
+		allWorkouts.forEach(function (value, index, array) {
+	
+			let tbodyRow = document.createElement('tr');
+	
+			let tableWorkoutId = document.createElement('td');
+			let tableWorkoutName = document.createElement('td');
+			let tableWorkoutDescription = document.createElement('td');
+	
+			tableWorkoutId.textContent = value.id + ')';
+			tbodyRow.appendChild(tableWorkoutId);
+	
+			tableWorkoutName.textContent = value.workout;
+			tableWorkoutName.addEventListener('click', function (e) { //make the name clickable, display workout data
+				workoutDetail(value);
+			});
+			tbodyRow.appendChild(tableWorkoutName);
+	
+			tableWorkoutDescription.textContent = value.description;
+			tbodyRow.appendChild(tableWorkoutDescription);
+	
+			tbody.appendChild(tbodyRow);
+			table.appendChild(tbody);
+		});
+		keywordDiv.appendChild(p);
+		keywordDiv.appendChild(table);
+
+	}
+	
+	//GET WORKOUTS IN DATE RANGE
+
+	function searchDateRange(date1, date2){
+		console.log('in searchDateRange');
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', 'api/workouts/range/' + date1 + '/' + date2);
+			xhr.onreadystatechange = function() {
+			  if (xhr.readyState === 4 && xhr.status < 400) {
+				var workoutsInRange = JSON.parse(xhr.responseText);
+				console.log(workoutsInRange)
+				displayWorkoutsInRange(workoutsInRange);
+			  }
+			  if (xhr.readyState === 4 && xhr.status >= 400) {
+				console.error(xhr.status + ': ' + xhr.responseText);
+			  }
+			};
+			xhr.send(null);
+		  }
+
+	//DISPLAY TABLE OF WORKOUTS FROM KEYWORD SEARCH
+	function displayWorkoutsInRange(allWorkouts) {
+		let rangeDiv = document.getElementById('dateRangeSearchDiv');
+		rangeDiv.textContent = '';
+		let p = document.createElement('p');
+		p.textContent = 'There are ' + allWorkouts.length + ' workout(s) in this date range.'
+	
+		//create table
+		let table = document.createElement('table');
+		let thead = document.createElement('thead');
+		let headRow = document.createElement('tr');
+		//create table headers
+		let th1 = document.createElement('th');
+		th1.textContent = 'Id';
+		let th2 = document.createElement('th');
+		th2.textContent = 'Workout Name';
+		let th3 = document.createElement('th');
+		th3.textContent = 'Description';
+	
+		headRow.appendChild(th1);
+		headRow.appendChild(th2);
+		headRow.appendChild(th3);
+	
+		thead.appendChild(headRow);
+		table.appendChild(thead);
+	
+		let tbody = document.createElement('tbody');
+		//loop through workouts and add to table
+		allWorkouts.forEach(function (value, index, array) {
+	
+			let tbodyRow = document.createElement('tr');
+	
+			let tableWorkoutId = document.createElement('td');
+			let tableWorkoutName = document.createElement('td');
+			let tableWorkoutDescription = document.createElement('td');
+	
+			tableWorkoutId.textContent = value.id + ')';
+			tbodyRow.appendChild(tableWorkoutId);
+	
+			tableWorkoutName.textContent = value.workout;
+			tableWorkoutName.addEventListener('click', function (e) { //make the name clickable, display workout data
+				workoutDetail(value);
+			});
+			tbodyRow.appendChild(tableWorkoutName);
+	
+			tableWorkoutDescription.textContent = value.description;
+			tbodyRow.appendChild(tableWorkoutDescription);
+	
+			tbody.appendChild(tbodyRow);
+			table.appendChild(tbody);
+		});
+		rangeDiv.appendChild(p);
+		rangeDiv.appendChild(table);
+
 	}
 
 		// O L D  D I S P L A Y .... D E L E T E ... delete pending testing
