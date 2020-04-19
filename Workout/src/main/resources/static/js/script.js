@@ -33,6 +33,7 @@ function init(){
 	getAllWorkouts();
 }
 
+//GET WORKOUT
 function getWorkout(workoutId){
 	console.log('in get workout')
 	let xhr = new XMLHttpRequest();
@@ -62,6 +63,7 @@ function getWorkout(workoutId){
 		xhr.send();
 	}
 
+	//DISPLAY WORKOUT
 	function displayWorkout(workout) {
 		console.log('in display workout')
 		var dataDiv = document.getElementById('displayDiv');
@@ -94,12 +96,12 @@ function getWorkout(workoutId){
 		li.textContent = 'Notes: ' + workout.notes;
 		ul.appendChild(li)
 	}
-
 	function displayNotFound(msg) {
 		var filmDiv = document.getElementById('displayDiv');
 		filmDiv.textContent = msg;	
 	}
 
+	//CREATE WORKOUT
 	function createWorkout(workout) {
 		let workJson = JSON.stringify(workout);
 		let xhr = new XMLHttpRequest();
@@ -126,29 +128,24 @@ function getWorkout(workoutId){
 		xhr.send(workJson);
 	}
 
+	//GET ALL WORKOUTS
 	function getAllWorkouts(){
 		var xhr = new XMLHttpRequest();
-
 		xhr.open('GET', 'api/workouts');
-	  
-	  
 		xhr.onreadystatechange = function() {
 		  if (xhr.readyState === 4 && xhr.status < 400) {
 			var allWorkouts = JSON.parse(xhr.responseText);
 			console.log(allWorkouts)
-	  
 			displayAllWorkouts(allWorkouts);
 		  }
-	  
 		  if (xhr.readyState === 4 && xhr.status >= 400) {
 			console.error(xhr.status + ': ' + xhr.responseText);
 		  }
 		};
-	  
 		xhr.send(null);
 	  }
 
-	  //displays a table of all workouts
+	  //DISPLAY TABLE OF ALL WORKOUTS
 	  function displayAllWorkouts(allWorkouts) {
 		let allDiv = document.getElementById('allWorkoutsDiv');
 		allDiv.textContent = '';
@@ -203,7 +200,7 @@ function getWorkout(workoutId){
 	
 	}
 	  
-	//displays single workout details from clicking on workout name
+	//DISPLAYS SINGLE WORKOUT DETAILS
 	function workoutDetail(workout) {
 
 		let singleWorkoutData = document.getElementById('singleWorkoutData');
@@ -265,7 +262,7 @@ function getWorkout(workoutId){
 	
 		btnDelete.addEventListener('click', function (e) {
 			e.preventDefault();
-			// deleteWorkout(workout);
+			deleteWorkout(workout);
 			singleWorkoutData.textContent = '';
 			getWorkouts();
 		});
@@ -276,7 +273,7 @@ function getWorkout(workoutId){
 		singleWorkoutData.appendChild(btnDelete);
 	}
 
-		//edits workouts
+		//EDIT/UPDATE WORKOUT
 	function editWorkout(workoutObj) {
 		let editCrimeDataDiv = document.getElementById('editWorkoutDiv');
 		// create the form, give it a name
@@ -293,7 +290,7 @@ function getWorkout(workoutId){
 		form.appendChild(workoutInput);
 		
 		var workoutName = document.createElement('input');
-		workoutName.workout = 'workoutName'; 
+		workoutName.name = 'workoutName'; 
 		workoutName.type = 'text'; 
 		workoutName.value = workoutObj.workout; //assign workout name value
 		form.appendChild(workoutName);
@@ -350,7 +347,7 @@ function getWorkout(workoutId){
 			var form = e.target.parentElement;
 	
 			// reassign the workout with updated info
-			// workoutObj.workout = form.workoutName.value;
+			workoutObj.workout = form.workoutName.value;
 			workoutObj.category = form.categoryInput.value;
 			workoutObj.targetMuscle = form.muscleInput.value;
 			workoutObj.dateCompleted = form.dateInput.value;
@@ -372,7 +369,7 @@ function getWorkout(workoutId){
 		editCrimeDataDiv.appendChild(form); //append form to div
 	}
 	
-	//gets all workouts
+	//GET ALL WORKOUTS
 	function getWorkouts() {
 		let xhr = new XMLHttpRequest();
 		xhr.open('GET', 'api/workouts/');
@@ -394,7 +391,7 @@ function getWorkout(workoutId){
 			}
 		}
 
-	//updates workout
+	//UPDATE WORKOUT
 	function updateWorkout(workoutObj) {
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST', 'api/workouts/' + workoutObj.id, true);
@@ -407,7 +404,6 @@ function getWorkout(workoutId){
 				if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
 					var updateWorkout = JSON.parse(xhr.responseText);
 					getWorkouts();
-	
 				} else {
 					console.log("POST request failed.");
 					console.error(xhr.status + ': ' + xhr.responseText);
@@ -415,8 +411,31 @@ function getWorkout(workoutId){
 			}
 		};
 	
-		var userObjectJson = JSON.stringify(workoutObj); // Convert JS object to
-		// JSON string
+		var userObjectJson = JSON.stringify(workoutObj); // Convert JS object to JSON string
+	
+		xhr.send(userObjectJson);
+	}
+
+	//DELETE WORKOUT
+	function deleteWorkout(workoutObj) {
+		let xhr = new XMLHttpRequest();
+		xhr.open('Delete', 'api/delete/' + workoutObj.id, true);
+	
+		xhr.setRequestHeader("Content-type", "application/json"); 
+	
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4) {
+				if (xhr.status == 200 || xhr.status == 204) { 
+					console.log("successfully deleted");
+					getWorkouts();
+				} else {
+					console.log("delete request failed.");
+					console.error(xhr.status + ': ' + xhr.responseText);
+				}
+			}
+		};
+	
+		var userObjectJson = JSON.stringify(workoutObj); // Convert JS object to JSON string
 	
 		xhr.send(userObjectJson);
 	}
