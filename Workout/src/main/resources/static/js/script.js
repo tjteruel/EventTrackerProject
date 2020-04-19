@@ -283,6 +283,7 @@ function getWorkout(workoutId){
 		var form = document.createElement('form');
 		form.name = 'editForm';
 		var div = document.createElement('div');
+		console.log(workoutObj);
 	
 		// fields for form
 		var workoutInput = document.createElement('input');
@@ -294,50 +295,50 @@ function getWorkout(workoutId){
 		var workoutName = document.createElement('input');
 		workoutName.workout = 'workoutName'; 
 		workoutName.type = 'text'; 
-		workoutName.placeholder = workoutObj.workoutName; //assign workout name value
+		workoutName.value = workoutObj.workout; //assign workout name value
 		form.appendChild(workoutName);
 	
 		var categoryInput = document.createElement('input');
 		categoryInput.name = 'categoryInput'; 
 		categoryInput.type = 'text'; 
-		categoryInput.placeholder = workoutObj.categoryInput; //assign workout category value
+		categoryInput.value = workoutObj.category; //assign workout category value
 		form.appendChild(categoryInput);
 
 		var muscleInput = document.createElement('input');
 		muscleInput.name = 'muscleInput'; 
 		muscleInput.type = 'text'; 
-		muscleInput.placeholder = workoutObj.muscleInput; //assign workout target muscle value
+		muscleInput.value = workoutObj.targetMuscle; //assign workout target muscle value
 		form.appendChild(muscleInput);
 
 		var dateInput = document.createElement('input');
 		dateInput.name = 'dateInput'; 
 		dateInput.type = 'text'; 
-		dateInput.placeholder = workoutObj.dateInput; //assign workout date value
+		dateInput.value = workoutObj.dateCompleted; //assign workout date value
 		form.appendChild(dateInput);
 
 		var recordInput = document.createElement('input');
 		recordInput.name = 'recordInput'; 
 		recordInput.type = 'text'; 
-		recordInput.placeholder = workoutObj.recordInput; //assign workout record value
+		recordInput.value = workoutObj.records; //assign workout record value
 		form.appendChild(recordInput);
 		
 		var workDescInput = document.createElement('input');
 		workDescInput.name = 'workDescInput'; 
 		workDescInput.type = 'text'; 
-		workDescInput.placeholder = workoutObj.workDescInput; //assign workout description value
+		workDescInput.value = workoutObj.description; //assign workout description value
 		form.appendChild(workDescInput);
 
 		var resourceInput = document.createElement('input');
 		resourceInput.name = 'resourceInput'; 
 		resourceInput.type = 'text'; 
-		resourceInput.placeholder = workoutObj.resourceInput; //assign workout resources value
+		resourceInput.value = workoutObj.resources; //assign workout resources value
 		form.appendChild(resourceInput);
 
-		var resourceInput = document.createElement('input');
-		resourceInput.name = 'resourceInput'; 
-		resourceInput.type = 'text'; 
-		resourceInput.placeholder = workoutObj.resourceInput; //assign workout resources value
-		form.appendChild(resourceInput);
+		var noteInput = document.createElement('input');
+		noteInput.name = 'noteInput'; 
+		noteInput.type = 'text'; 
+		noteInput.value = workoutObj.notes; //assign workout note value
+		form.appendChild(noteInput);
 
 		var submit = document.createElement('input');
 		submit.name = 'submit'; 
@@ -349,11 +350,17 @@ function getWorkout(workoutId){
 			var form = e.target.parentElement;
 	
 			// reassign the workout with updated info
-			workoutObj.workoutName = form.workoutName.value;
-			workoutObj.workDescInput = form.workDescInput.value;
-	
-			// PUT request, update workout
-			updateCrime(workoutObj);
+			// workoutObj.workout = form.workoutName.value;
+			workoutObj.category = form.categoryInput.value;
+			workoutObj.targetMuscle = form.muscleInput.value;
+			workoutObj.dateCompleted = form.dateInput.value;
+			workoutObj.records = form.recordInput.value;
+			workoutObj.description = form.workDescInput.value;
+			workoutObj.resources = form.resourceInput.value;
+			workoutObj.notes = form.noteInput.value;
+
+			// POST request, update workout
+			updateWorkout(workoutObj);
 			editWorkoutDiv.textContent = '';
 			let singleWorkoutData = document.getElementById('singleWorkoutData');
 			singleWorkoutData.textContent = '';
@@ -365,6 +372,7 @@ function getWorkout(workoutId){
 		editCrimeDataDiv.appendChild(form); //append form to div
 	}
 	
+	//gets all workouts
 	function getWorkouts() {
 		let xhr = new XMLHttpRequest();
 		xhr.open('GET', 'api/workouts/');
@@ -385,3 +393,31 @@ function getWorkout(workoutId){
 			  xhr.send(null);
 			}
 		}
+
+	//updates workout
+	function updateWorkout(workoutObj) {
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST', 'api/workouts/' + workoutObj.id, true);
+	
+		xhr.setRequestHeader("Content-type", "application/json"); // Specify JSON
+		// request body
+	
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4) {
+				if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
+					var updateWorkout = JSON.parse(xhr.responseText);
+					getWorkouts();
+	
+				} else {
+					console.log("POST request failed.");
+					console.error(xhr.status + ': ' + xhr.responseText);
+				}
+			}
+		};
+	
+		var userObjectJson = JSON.stringify(workoutObj); // Convert JS object to
+		// JSON string
+	
+		xhr.send(userObjectJson);
+	}
+
