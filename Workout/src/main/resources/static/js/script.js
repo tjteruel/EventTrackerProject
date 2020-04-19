@@ -83,7 +83,7 @@ function getWorkout(workoutId){
 				case 201:
 					workJson = xhr.responseText;
 					let workout = JSON.parse(workJson);
-					displayWorkout(workout);
+					workoutDetail(workout);
 					break;
 				case 400:
 					displayNotFound("Invalid workout data: " + workJson);
@@ -151,7 +151,6 @@ function getWorkout(workoutId){
 			tableWorkoutId.textContent = value.id + ')';
 			tbodyRow.appendChild(tableWorkoutId);
 	
-	
 			tableWorkoutName.textContent = value.workout;
 			tableWorkoutName.addEventListener('click', function (e) { //make the name clickable, display workout data
 				workoutDetail(value);
@@ -164,14 +163,11 @@ function getWorkout(workoutId){
 			tbody.appendChild(tbodyRow);
 			table.appendChild(tbody);
 		});
-	
 		allDiv.appendChild(table);
-	
 	}
 	  
 	//DISPLAYS SINGLE WORKOUT DETAILS
 	function workoutDetail(workout) {
-
 		let singleWorkoutData = document.getElementById('singleWorkoutData');
 		singleWorkoutData.textContent = '';
 
@@ -208,13 +204,11 @@ function getWorkout(workoutId){
 		notes.textContent = 'Notes: ' + workout.notes;
 		singleWorkoutData.appendChild(notes);
 	
+		// back/edit/delete button event + event listeners
 		let btnBack = document.createElement('button');
 		btnBack.textContent = "Back";
-	
-		// edit and back button event listeners
 		let btnEdit = document.createElement('button');
 		btnEdit.textContent = "Edit Workout";
-	
 		let btnDelete = document.createElement('button');
 		btnDelete.textContent = "Delete Workout";
 	
@@ -222,12 +216,10 @@ function getWorkout(workoutId){
 			singleWorkoutData.textContent = '';
 			getWorkouts();
 		});
-	
 		btnEdit.addEventListener('click', function (e) {
 			editWorkout(workout);
 			getWorkouts();
 		});
-	
 		btnDelete.addEventListener('click', function (e) {
 			e.preventDefault();
 			deleteWorkout(workout);
@@ -277,7 +269,7 @@ function getWorkout(workoutId){
 
 		var dateInput = document.createElement('input');
 		dateInput.name = 'dateInput'; 
-		dateInput.type = 'text'; 
+		dateInput.type = 'date'; 
 		dateInput.value = workoutObj.dateCompleted; //assign workout date value
 		form.appendChild(dateInput);
 
@@ -333,8 +325,6 @@ function getWorkout(workoutId){
 			form.reset();
 			getWorkouts();
 		});
-
-		
 		form.appendChild(submit); //append submit to form
 		editWorkoutDataDiv.appendChild(form); //append form to div
 	}
@@ -351,7 +341,6 @@ function getWorkout(workoutId){
 				  console.log(allWorkouts)
 				  displayAllWorkouts(allWorkouts);
 				}
-			
 				if (xhr.readyState === 4 && xhr.status >= 400) {
 				  console.error(xhr.status + ': ' + xhr.responseText);
 				}
@@ -401,8 +390,7 @@ function getWorkout(workoutId){
 		xhr.send(userObjectJson);
 	}
 
-		// O L D  D I S P L A Y .... D E L E T E ???
-		//... delete pending testing
+		// O L D  D I S P L A Y .... D E L E T E ... delete pending testing
 	// function displayWorkout(workout) {
 	// 	console.log('in display workout')
 	// 	var dataDiv = document.getElementById('displayDiv');
