@@ -1,5 +1,6 @@
 package com.skilldistillery.workouts.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +64,11 @@ public class WorkoutServiceImpl implements WorkoutService {
 	public List<Workout> searchByKeyword(String keyword){
 		keyword = "%" + keyword + "%";
 		return workRepo.findByWorkoutLikeOrCategoryLike(keyword, keyword);
+	}
+
+	@Override
+	public List<Workout> findByRange(LocalDate date1, LocalDate date2) {
+		return workRepo.findByRange(date1, date2);
 	}
 
 }

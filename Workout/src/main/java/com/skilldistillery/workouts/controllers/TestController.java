@@ -1,7 +1,8 @@
 package com.skilldistillery.workouts.controllers;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,13 +12,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.workouts.entities.Workout;
-import com.skilldistillery.workouts.repositories.WorkoutRepository;
 import com.skilldistillery.workouts.services.WorkoutService;
 
 @RestController
@@ -90,6 +89,15 @@ public class TestController {
 		@GetMapping("workouts/search/{keyword}")
 		public List<Workout> postSearchKeyword(@PathVariable String keyword) {
 			return workSvc.searchByKeyword(keyword);
+		}
+	
+	// search for workouts in range
+		@GetMapping("workouts/range/{date1}/{date2}")
+		public List<Workout> searchByDateRange(@PathVariable String date1, @PathVariable String date2){
+			LocalDate localDate1 = LocalDate.parse(date1);
+			LocalDate localDate2 = LocalDate.parse(date2);
+			
+			return workSvc.findByRange(localDate1, localDate2);
 		}
 
 }
