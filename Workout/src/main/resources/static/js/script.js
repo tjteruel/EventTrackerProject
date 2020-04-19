@@ -46,7 +46,8 @@ function getWorkout(workoutId){
 					console.log(dataJSON);
 					let data = JSON.parse(dataJSON);
 					console.log(data);
-					displayWorkout(data);
+					// displayWorkout(data);
+					workoutDetail(data);
 					break;
 				
 				case 404:
@@ -63,39 +64,7 @@ function getWorkout(workoutId){
 		xhr.send();
 	}
 
-	//DISPLAY WORKOUT
-	function displayWorkout(workout) {
-		console.log('in display workout')
-		var dataDiv = document.getElementById('displayDiv');
-		dataDiv.textContent = '';
-		let h1 = document.createElement('h1');
-		h1.textContent = workout.workout;
-		dataDiv.appendChild(h1);
-		let bq = document.createElement('blockquote');
-		bq.textContent = workout.category;
-		dataDiv.appendChild(bq);
-		// * details in unordered list
-		let ul = document.createElement('ul');
-		dataDiv.appendChild(ul);
-		let li = document.createElement('li');
-		li.textContent = 'Target Muscle(s): ' + workout.targetMuscle;
-		ul.appendChild(li);
-		li = document.createElement('li');
-		li.textContent = 'Date Completed: ' + workout.dateCompleted;
-		ul.appendChild(li)
-		li = document.createElement('li');
-		li.textContent = 'Workout Recrods: ' + workout.records;
-		ul.appendChild(li);
-		li = document.createElement('li');
-		li.textContent = 'Description: ' + workout.description;
-		ul.appendChild(li)
-		li = document.createElement('li');
-		li.textContent = 'Resources: ' + workout.resources;
-		ul.appendChild(li)
-		li = document.createElement('li');
-		li.textContent = 'Notes: ' + workout.notes;
-		ul.appendChild(li)
-	}
+	//DISPLAY NOT FOUND MSG
 	function displayNotFound(msg) {
 		var filmDiv = document.getElementById('displayDiv');
 		filmDiv.textContent = msg;	
@@ -212,19 +181,19 @@ function getWorkout(workoutId){
 		singleWorkoutData.appendChild(h2Title);
 
 		let h1category = document.createElement('p');
-		h1category.textContent = workout.category;
+		h1category.textContent = 'Category: ' + workout.category;
 		singleWorkoutData.appendChild(h1category);
 
 		let target = document.createElement('p');
-		target.textContent = workout.targetMuscle;
+		target.textContent = 'Target Muscle: ' + workout.targetMuscle;
 		singleWorkoutData.appendChild(target);
 
 		let date = document.createElement('p');
-		date.textContent = workout.dateCompleted;
+		date.textContent = 'Date Completed: ' + workout.dateCompleted;
 		singleWorkoutData.appendChild(date);
 
 		let record = document.createElement('p');
-		record.textContent = workout.record;
+		record.textContent = 'Records: ' + workout.record;
 		singleWorkoutData.appendChild(record);
 	
 		let description = document.createElement('p');
@@ -257,7 +226,6 @@ function getWorkout(workoutId){
 		btnEdit.addEventListener('click', function (e) {
 			editWorkout(workout);
 			getWorkouts();
-	
 		});
 	
 		btnDelete.addEventListener('click', function (e) {
@@ -275,7 +243,7 @@ function getWorkout(workoutId){
 
 		//EDIT/UPDATE WORKOUT
 	function editWorkout(workoutObj) {
-		let editCrimeDataDiv = document.getElementById('editWorkoutDiv');
+		let editWorkoutDataDiv = document.getElementById('editWorkoutDiv');
 		// create the form, give it a name
 		var form = document.createElement('form');
 		form.name = 'editForm';
@@ -365,8 +333,10 @@ function getWorkout(workoutId){
 			form.reset();
 			getWorkouts();
 		});
+
+		
 		form.appendChild(submit); //append submit to form
-		editCrimeDataDiv.appendChild(form); //append form to div
+		editWorkoutDataDiv.appendChild(form); //append form to div
 	}
 	
 	//GET ALL WORKOUTS
@@ -395,10 +365,7 @@ function getWorkout(workoutId){
 	function updateWorkout(workoutObj) {
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST', 'api/workouts/' + workoutObj.id, true);
-	
-		xhr.setRequestHeader("Content-type", "application/json"); // Specify JSON
-		// request body
-	
+		xhr.setRequestHeader("Content-type", "application/json"); // Specify JSON request body
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState === 4) {
 				if (xhr.status == 200 || xhr.status == 201) { // Ok or Created
@@ -410,9 +377,7 @@ function getWorkout(workoutId){
 				}
 			}
 		};
-	
 		var userObjectJson = JSON.stringify(workoutObj); // Convert JS object to JSON string
-	
 		xhr.send(userObjectJson);
 	}
 
@@ -420,9 +385,7 @@ function getWorkout(workoutId){
 	function deleteWorkout(workoutObj) {
 		let xhr = new XMLHttpRequest();
 		xhr.open('Delete', 'api/delete/' + workoutObj.id, true);
-	
 		xhr.setRequestHeader("Content-type", "application/json"); 
-	
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState === 4) {
 				if (xhr.status == 200 || xhr.status == 204) { 
@@ -434,9 +397,41 @@ function getWorkout(workoutId){
 				}
 			}
 		};
-	
 		var userObjectJson = JSON.stringify(workoutObj); // Convert JS object to JSON string
-	
 		xhr.send(userObjectJson);
 	}
 
+		// O L D  D I S P L A Y .... D E L E T E ???
+		//... delete pending testing
+	// function displayWorkout(workout) {
+	// 	console.log('in display workout')
+	// 	var dataDiv = document.getElementById('displayDiv');
+	// 	dataDiv.textContent = '';
+	// 	let h1 = document.createElement('h1');
+	// 	h1.textContent = workout.workout;
+	// 	dataDiv.appendChild(h1);
+	// 	let bq = document.createElement('blockquote');
+	// 	bq.textContent = workout.category;
+	// 	dataDiv.appendChild(bq);
+	// 	// * details in unordered list
+	// 	let ul = document.createElement('ul');
+	// 	dataDiv.appendChild(ul);
+	// 	let li = document.createElement('li');
+	// 	li.textContent = 'Target Muscle(s): ' + workout.targetMuscle;
+	// 	ul.appendChild(li);
+	// 	li = document.createElement('li');
+	// 	li.textContent = 'Date Completed: ' + workout.dateCompleted;
+	// 	ul.appendChild(li)
+	// 	li = document.createElement('li');
+	// 	li.textContent = 'Workout Recrods: ' + workout.records;
+	// 	ul.appendChild(li);
+	// 	li = document.createElement('li');
+	// 	li.textContent = 'Description: ' + workout.description;
+	// 	ul.appendChild(li)
+	// 	li = document.createElement('li');
+	// 	li.textContent = 'Resources: ' + workout.resources;
+	// 	ul.appendChild(li)
+	// 	li = document.createElement('li');
+	// 	li.textContent = 'Notes: ' + workout.notes;
+	// 	ul.appendChild(li)
+	// }
