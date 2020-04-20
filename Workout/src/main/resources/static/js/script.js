@@ -4,12 +4,10 @@ window.addEventListener('load', evt => {
 });
 
 function init(){
-	console.log('In init()'); //delete after test
 	document.workoutIdSearch.lookup.addEventListener('click', function(event) {
 		console.log('in event listener');
 		event.preventDefault();
 		var workoutId = document.workoutIdSearch.workoutId.value;
-		console.log('workoput Id = ' + workoutId); //delete after test
 		
 		if (!isNaN(workoutId) && workoutId > 0) {
 			getWorkout(workoutId);
@@ -41,7 +39,6 @@ function init(){
 		}
 	});
 
-	//not functional. delete after testing?
 	document.dateRangeSearch.dateRangeButton.addEventListener('click', function(event) {
 		event.preventDefault();
 		let date1 = document.dateRangeSearch.date1.value;
@@ -174,12 +171,13 @@ function getWorkout(workoutId){
 			let tableWorkoutName = document.createElement('td');
 			let tableWorkoutDescription = document.createElement('td');
 	
-			tableWorkoutId.textContent = value.id + ')';
+			tableWorkoutId.textContent = value.id + ') ';
 			tbodyRow.appendChild(tableWorkoutId);
 	
 			tableWorkoutName.textContent = value.workout;
 			tableWorkoutName.addEventListener('click', function (e) { //make the name clickable, display workout data
 				workoutDetail(value);
+				workoutCounter(allWorkouts, value);
 			});
 			tbodyRow.appendChild(tableWorkoutName);
 	
@@ -190,6 +188,30 @@ function getWorkout(workoutId){
 			table.appendChild(tbody);
 		});
 		allDiv.appendChild(table);
+	}
+
+	function workoutCounter(allWorkouts, workoutTitle){
+		let counter = [];
+		var workoutCounter = allWorkouts.forEach(function (value,index,array) {
+			if(allWorkouts[index].workout == workoutTitle.workout){
+				console.log(allWorkouts[index].workout);
+				counter.push('workout added to count');
+				console.log('workout count: ' + counter.length);
+			}
+		});
+		// let countDiv = document.getElementById('countDiv');
+		// countDiv = '';
+
+		// let countDisplay = document.createElement('p');
+		// countDisplay.textContent = 'You have completed this workout ' + counter.length + ' time(s).';
+		// countDiv.appendChild(countDisplay);
+		let countDiv = document.getElementById('countDiv');
+		countDiv.textContent = '';
+
+		//displays and appends workout details
+		let h2Count = document.createElement('h2');
+		h2Count.textContent = 'You have completed the ' + workoutTitle.workout + ' workout ' + counter.length + ' time(s).';
+		countDiv.appendChild(h2Count);
 	}
 	  
 	//DISPLAYS SINGLE WORKOUT DETAILS
@@ -491,7 +513,6 @@ function getWorkout(workoutId){
 	}
 	
 	//GET WORKOUTS IN DATE RANGE
-
 	function searchDateRange(date1, date2){
 		console.log('in searchDateRange');
 			var xhr = new XMLHttpRequest();
@@ -564,37 +585,3 @@ function getWorkout(workoutId){
 		rangeDiv.appendChild(table);
 
 	}
-
-		// O L D  D I S P L A Y .... D E L E T E ... delete pending testing
-	// function displayWorkout(workout) {
-	// 	console.log('in display workout')
-	// 	var dataDiv = document.getElementById('displayDiv');
-	// 	dataDiv.textContent = '';
-	// 	let h1 = document.createElement('h1');
-	// 	h1.textContent = workout.workout;
-	// 	dataDiv.appendChild(h1);
-	// 	let bq = document.createElement('blockquote');
-	// 	bq.textContent = workout.category;
-	// 	dataDiv.appendChild(bq);
-	// 	// * details in unordered list
-	// 	let ul = document.createElement('ul');
-	// 	dataDiv.appendChild(ul);
-	// 	let li = document.createElement('li');
-	// 	li.textContent = 'Target Muscle(s): ' + workout.targetMuscle;
-	// 	ul.appendChild(li);
-	// 	li = document.createElement('li');
-	// 	li.textContent = 'Date Completed: ' + workout.dateCompleted;
-	// 	ul.appendChild(li)
-	// 	li = document.createElement('li');
-	// 	li.textContent = 'Workout Recrods: ' + workout.records;
-	// 	ul.appendChild(li);
-	// 	li = document.createElement('li');
-	// 	li.textContent = 'Description: ' + workout.description;
-	// 	ul.appendChild(li)
-	// 	li = document.createElement('li');
-	// 	li.textContent = 'Resources: ' + workout.resources;
-	// 	ul.appendChild(li)
-	// 	li = document.createElement('li');
-	// 	li.textContent = 'Notes: ' + workout.notes;
-	// 	ul.appendChild(li)
-	// }
