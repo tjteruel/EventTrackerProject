@@ -199,12 +199,7 @@ function getWorkout(workoutId){
 				console.log('workout count: ' + counter.length);
 			}
 		});
-		// let countDiv = document.getElementById('countDiv');
-		// countDiv = '';
 
-		// let countDisplay = document.createElement('p');
-		// countDisplay.textContent = 'You have completed this workout ' + counter.length + ' time(s).';
-		// countDiv.appendChild(countDisplay);
 		let countDiv = document.getElementById('countDiv');
 		countDiv.textContent = '';
 
