@@ -1,0 +1,59 @@
+<p>workout-list works!</p>
+
+<div *ngIf="selected">
+  <h3>{{ selected.id }}) {{ selected.workout }}</h3>
+  <h4>Category: {{ selected.category }} Target Muscle(s): {{ selected.targetMuscle }}</h4>
+  <h5>Completed on: {{ selected.dateCompleted }}</h5>
+  <p>{{ selected.description }}</p>
+  <p>{{ selected.notes }}</p>
+  <p>Records: {{ selected.records }}</p>
+  <p>Resources: {{ selected.resources }}</p>
+
+
+  <input type="submit" (click)="setEditWorkout()" value="Edit" />
+</div>
+
+<div *ngIf="!selected">
+  <!-- <span *ngFor="let type of types" (click)="selectedType = type">{{type}} | </span> -->
+<table>
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Workout</td>
+      <td>Description</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let workout of workouts" (click)="displayWorkout(workout)" >
+      <td>{{workout.id}}</td>
+      <td>{{workout.workout}}</td>
+      <td>{{workout.description}}</td>
+      <td>
+        <input
+          class="btn btn-danger"
+          type="submit"
+          (click)="deleteWorkout(workout.id)"
+          value="Delete"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<form *ngIf="editWorkout">
+  Workout Name: <input type="text" name="workout" [(ngModel)]="editWorkout.workout" /><br />
+  Category: <input type="text" name="category" [(ngModel)]="editWorkout.category" /><br />
+  Target Muscle(s): <input type="text" name="targetMuscle" [(ngModel)]="editWorkout.targetMuscle" /><br />
+  Completed On: <input type="text" name="dateCompleted" [(ngModel)]="editWorkout.dateCompleted" /><br />
+  Description: <input type="text" name="description" [(ngModel)]="editWorkout.description" /><br />
+  Notes: <input type="text" name="notes" [(ngModel)]="editWorkout.notes" /><br />
+  Records: <input type="text" name="records" [(ngModel)]="editWorkout.records" /><br />
+  Resources: <input type="text" name="resources" [(ngModel)]="editWorkout.resources" /><br />
+  <input type="submit" (click)="editWorkout = null" value="cancel" />
+  <input type="submit" (click)="updateWorkout(editWorkout)" value="SAVE" />
+</form>
+
+<button class="btn btn-primary" (click)="displayTable(workouts)">
+  Show Table
+</button>
