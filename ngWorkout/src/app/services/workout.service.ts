@@ -72,14 +72,14 @@ export class WorkoutService {
     )
   }
   destroy(workoutId:number){
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Basic ` + this.auth.getCredentials(),
-        'X-Requested-With': 'XMLHttpRequest'
-      })
-    };
-    return this.http.delete<Workout>(this.url+ '/'+  workoutId,httpOptions)
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Basic ` + this.auth.getCredentials(),
+    //     'X-Requested-With': 'XMLHttpRequest'
+    //   })
+    // };
+    return this.http.delete<Workout>(this.url+ '/'+  workoutId)//,httpOptions)
     .pipe(
       catchError((err: any) => {
         console.log(err);

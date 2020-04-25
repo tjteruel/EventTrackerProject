@@ -16,6 +16,7 @@ export class WorkoutListComponent implements OnInit {
   workout = new Workout();
   workouts: Workout[]=[];
   selected = null;
+  addWorkoutForm = null;
 
   constructor(
     private workSvc: WorkoutService,
@@ -113,10 +114,15 @@ export class WorkoutListComponent implements OnInit {
         this.reload();
       },
       boo => {
-      console.error('workoutlistComp delete todo error');
+      console.error('workoutlistComp delete workout error');
       }
     );
   }
+
+  setAddWorkout(){
+    this.addWorkoutForm = Object.assign({}, this.selected);
+  }
+
 
 
 

@@ -15,8 +15,8 @@
 
 <div *ngIf="!selected">
   <!-- <span *ngFor="let type of types" (click)="selectedType = type">{{type}} | </span> -->
-<table>
-  <thead>
+  <table class="table table-striped table-hover">
+    <thead class="thead thead-dark">
     <tr>
       <td>ID</td>
       <td>Workout</td>
@@ -53,6 +53,22 @@
   <input type="submit" (click)="editWorkout = null" value="cancel" />
   <input type="submit" (click)="updateWorkout(editWorkout)" value="SAVE" />
 </form>
+
+<form *ngIf="addWorkoutForm">
+  Workout Name: <input type="text" name="workout" [(ngModel)]="newWorkout.workout" /><br />
+  Category: <input type="text" name="category" [(ngModel)]="newWorkout.category" /><br />
+  Target Muscle(s): <input type="text" name="targetMuscle" [(ngModel)]="newWorkout.targetMuscle" /><br />
+  Completed On: <input type="date" name="dateCompleted" [(ngModel)]="newWorkout.dateCompleted" /><br />
+  Description: <input type="text" name="description" [(ngModel)]="newWorkout.description" /><br />
+  Notes: <input type="text" name="notes" [(ngModel)]="newWorkout.notes" /><br />
+  Records: <input type="text" name="records" [(ngModel)]="newWorkout.records" /><br />
+  Resources: <input type="text" name="resources" [(ngModel)]="newWorkout.resources" /><br />
+  <input type="submit" (click)="newWorkout = null" value="cancel" />
+  <input type="submit" (click)="addWorkout(newWorkout)" value="SAVE" />
+</form>
+
+<input type="submit" (click)="setAddWorkout()" value="Add New Workout" />
+
 
 <button class="btn btn-primary" (click)="displayTable(workouts)">
   Show Table
