@@ -1,13 +1,16 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <a class="navbar-brand" [routerLink]="['/workouts']">Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link" [routerLink]="['/about']">About <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" target="_blank" href="https://github.com/tjteruel/EventTrackerProject">GitHub <span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" [routerLink]="['/contact']">Contact</a>
     </div>
+    <div class="navbar-nav ml-auto">
+      <a target="_blank" href="https://www.linkedin.com/in/tjteruel" class="nav-item nav-link">My LinkedIn</a>
+  </div>
   </div>
 </nav>
 

@@ -1,12 +1,21 @@
 <h2 align="center">Workout Tracker</h2>
 
+
 <div class="jumbotron">
   <h1 class="display-4">Workout Tracker</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-  <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
   <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    This is a simple workout tracker. Workouts can be added, deleted, and
+    edited. Click on a workout to see more details.
+  </p>
+  <hr class="my-4" />
+  <p>Feel free to explore my GitHub for more details on this project and others.</p>
+  <p class="lead">
+    <a
+      class="btn btn-primary btn-sm"
+      href="https://github.com/tjteruel/EventTrackerProject"
+      role="button"
+      >GitHub</a
+    >
   </p>
 </div>
 
@@ -22,8 +31,8 @@
   <p>{{ selected.notes }}</p>
   <p>Records: {{ selected.records }}</p>
   <p>Resources: {{ selected.resources }}</p>
-
-  <div class="d-flex p-2">
+<hr>
+  <div *ngIf="!editWorkout" class="d-flex p-2">
     <button class="btn btn-primary" (click)="displayTable(workouts)">
       Show All Workouts
     </button>
@@ -41,6 +50,7 @@
         <td>ID</td>
         <td>Workout</td>
         <td>Description</td>
+        <td></td>
       </tr>
     </thead>
     <tbody>
@@ -60,324 +70,255 @@
     </tbody>
   </table>
   <hr />
-  <button class="btn btn-primary" (click)="setAddWorkout()">Add Workout</button>
+  <div>
+    <!-- Add workout form -->
+    <div *ngIf="addWorkoutForm" class="container-fluid log-bg">
+      <br />
+      <br />
+      <div class="container login-form-1">
+        <div class="row">
+          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card rounded shadow shadow-sm">
+              <div class="card-body">
+                <h4 class="card-title text-center mb-0">
+                  <strong>Add Workout</strong>
+                </h4>
+
+                <hr />
+                <form
+                  #loginForm="ngForm"
+                  ngNativeValidate
+                  id="login-form"
+                  class="text-center"
+                >
+                  <div class="login-form-main-message"></div>
+                  <div class="main-login-form">
+                    <div class="login-group">
+                      <div class="form-group">
+                        <label class="text-left" for="username"
+                          >Workout Name
+                          <input
+                            type="text"
+                            name="workout"
+                            [(ngModel)]="newWorkout.workout"
+                            required
+                          />*</label
+                        >
+                      </div>
+                      <div class="form-group">
+                        <label class="text-left" for="password"
+                          >Category
+                          <input
+                            type="text"
+                            name="category"
+                            [(ngModel)]="newWorkout.category"
+                        /></label>
+                      </div>
+                      <div class="form-group">
+                        <label class="text-left" for="password"
+                          >Target Muscle(s)
+                          <input
+                            type="text"
+                            name="targetMuscle"
+                            [(ngModel)]="newWorkout.targetMuscle"
+                        /></label>
+                      </div>
+                      <div class="form-group">
+                        <label class="text-left" for="password"
+                          >Completed On
+                          <input
+                            type="date"
+                            name="dateCompleted"
+                            [(ngModel)]="newWorkout.dateCompleted"
+                        /></label>
+                      </div>
+                      <div class="form-group">
+                        <label class="text-left" for="password"
+                          >Description
+                          <input
+                            type="text"
+                            name="description"
+                            [(ngModel)]="newWorkout.description"
+                          />*</label
+                        >
+                      </div>
+                      <div class="form-group">
+                        <label class="text-left" for="password"
+                          >Notes
+                          <input
+                            type="text"
+                            name="notes"
+                            [(ngModel)]="newWorkout.notes"
+                        /></label>
+                      </div>
+                      <div class="form-group">
+                        <label class="text-left" for="password"
+                          >Records
+                          <input
+                            type="text"
+                            name="records"
+                            [(ngModel)]="newWorkout.records"
+                        /></label>
+                        <div class="form-group">
+                          <label class="text-left" for="password"
+                            >Resources
+                            <input
+                              type="text"
+                              name="resources"
+                              [(ngModel)]="newWorkout.resources"
+                          /></label>
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                    <sub class="text-muted">* Annotates a Required Field</sub>
+                    <br />
+                    <button
+                      type="submit"
+                      class="login-button btn btn-primary"
+                      (click)="addWorkout(newWorkout)"
+                      (click)="addWorkoutForm = null"
+                    >
+                      Save Workout
+                    </button>
+                    <button
+                      type="submit"
+                      class="login-button btn btn-dark"
+                      (click)="addWorkoutForm = null"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  <br />
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!addWorkoutForm">
+      <button class="btn btn-primary" (click)="setAddWorkout()">
+        Add Workout
+      </button>
+    </div>
+  </div>
 </div>
 
-<!-- Edit Workout Form -->
+  <!-- Edit Workout Form -->
+  <div *ngIf="editWorkout">
+    <div class="container login-form-1">
+      <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+          <div class="card rounded shadow shadow-sm">
+            <div class="card-body">
+              <h4 class="card-title text-center mb-0">
+                <strong>Edit Workout</strong>
+              </h4>
 
-<div *ngIf="editWorkout" >
-
-  <div class="container login-form-1">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card rounded shadow shadow-sm">
-          <div class="card-body">
-            <h4 class="card-title text-center mb-0">
-              <strong>Edit Workout</strong>
-            </h4>
-
-            <hr />
-            <form
-              #loginForm="ngForm"
-              ngNativeValidate
-              id="login-form"
-              class="text-center"
-            >
-              <div class="login-form-main-message"></div>
-              <div class="main-login-form">
-                <div class="login-group">
-                  <div class="form-group">
-                    <label class="text-left" for="username"
-                      >Workout Name
-                      <input type="text" name="workout" [(ngModel)]="editWorkout.workout" /></label
-                    >
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Category
-                      <input type="text" name="category" [(ngModel)]="editWorkout.category" /></label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Target Muscle(s)
-                      <input
-                        type="text"
-                        name="targetMuscle"
-                        [(ngModel)]="editWorkout.targetMuscle"
-                    /></label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Completed On
-                      <input
-                        type="date"
-                        name="dateCompleted"
-                        [(ngModel)]="editWorkout.dateCompleted"
-                    /></label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Description
-                      <input
-                        type="text"
-                        name="description"
-                        [(ngModel)]="editWorkout.description"
-                    /></label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Notes
-                      <input
-                        type="text"
-                        name="notes"
-                        [(ngModel)]="editWorkout.notes"
-                    /></label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Records
-                      <input
-                        type="text"
-                        name="records"
-                        [(ngModel)]="editWorkout.records"
-                    /></label>
+              <hr />
+              <form
+                #loginForm="ngForm"
+                ngNativeValidate
+                id="login-form"
+                class="text-center"
+              >
+                <div class="login-form-main-message"></div>
+                <div class="main-login-form">
+                  <div class="login-group">
                     <div class="form-group">
-                      <label class="text-left" for="password"
-                        >Resources
+                      <label class="text-left" for="username"
+                        >Workout Name
                         <input
                           type="text"
-                          name="resources"
-                          [(ngModel)]="editWorkout.resources"
+                          name="workout"
+                          [(ngModel)]="editWorkout.workout"
                       /></label>
                     </div>
+                    <div class="form-group">
+                      <label class="text-left" for="password"
+                        >Category
+                        <input
+                          type="text"
+                          name="category"
+                          [(ngModel)]="editWorkout.category"
+                      /></label>
+                    </div>
+                    <div class="form-group">
+                      <label class="text-left" for="password"
+                        >Target Muscle(s)
+                        <input
+                          type="text"
+                          name="targetMuscle"
+                          [(ngModel)]="editWorkout.targetMuscle"
+                      /></label>
+                    </div>
+                    <div class="form-group">
+                      <label class="text-left" for="password"
+                        >Completed On
+                        <input
+                          type="date"
+                          name="dateCompleted"
+                          [(ngModel)]="editWorkout.dateCompleted"
+                      /></label>
+                    </div>
+                    <div class="form-group">
+                      <label class="text-left" for="password"
+                        >Description
+                        <input
+                          type="text"
+                          name="description"
+                          [(ngModel)]="editWorkout.description"
+                      /></label>
+                    </div>
+                    <div class="form-group">
+                      <label class="text-left" for="password"
+                        >Notes
+                        <input
+                          type="text"
+                          name="notes"
+                          [(ngModel)]="editWorkout.notes"
+                      /></label>
+                    </div>
+                    <div class="form-group">
+                      <label class="text-left" for="password"
+                        >Records
+                        <input
+                          type="text"
+                          name="records"
+                          [(ngModel)]="editWorkout.records"
+                      /></label>
+                      <div class="form-group">
+                        <label class="text-left" for="password"
+                          >Resources
+                          <input
+                            type="text"
+                            name="resources"
+                            [(ngModel)]="editWorkout.resources"
+                        /></label>
+                      </div>
+                    </div>
                   </div>
+                  <hr />
+                  <br />
+                  <button
+                    class="btn btn-primary"
+                    (click)="updateWorkout(editWorkout)"
+                  >
+                    Save Changes
+                  </button>
+                  <button class="btn btn-dark" (click)="editWorkout = null">
+                    Cancel
+                  </button>
                 </div>
-                <hr />
-                <br>
-                <button class="btn btn-primary" (click)="updateWorkout(editWorkout)">
-                  Save Changes
-                </button>
-                <button class="btn btn-dark" (click)="editWorkout = null">Cancel</button>
-
-              </div>
-              <br />
-            </form>
+                <br />
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-  <!-- <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br /> -->
 
 
-<!-- Add workout form -->
-<div *ngIf="addWorkoutForm" class="container-fluid log-bg">
-  <br />
-  <br />
-  <div class="container login-form-1">
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card rounded shadow shadow-sm">
-          <div class="card-body">
-            <h4 class="card-title text-center mb-0">
-              <strong>Add Workout</strong>
-            </h4>
 
-            <hr />
-            <form
-              #loginForm="ngForm"
-              ngNativeValidate
-              id="login-form"
-              class="text-center"
-            >
-              <div class="login-form-main-message"></div>
-              <div class="main-login-form">
-                <div class="login-group">
-                  <div class="form-group">
-                    <label class="text-left" for="username"
-                      >Workout Name
-                      <input
-                        type="text"
-                        name="workout"
-                        [(ngModel)]="newWorkout.workout"
-                        required
-                      />*</label
-                    >
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Category
-                      <input
-                        type="text"
-                        name="category"
-                        [(ngModel)]="newWorkout.category"
-                    /></label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Target Muscle(s)
-                      <input
-                        type="text"
-                        name="targetMuscle"
-                        [(ngModel)]="newWorkout.targetMuscle"
-                    /></label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Completed On
-                      <input
-                        type="date"
-                        name="dateCompleted"
-                        [(ngModel)]="newWorkout.dateCompleted"
-                    /></label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Description
-                      <input
-                        type="text"
-                        name="description"
-                        [(ngModel)]="newWorkout.description"
-                    />*</label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Notes
-                      <input
-                        type="text"
-                        name="notes"
-                        [(ngModel)]="newWorkout.notes"
-                    /></label>
-                  </div>
-                  <div class="form-group">
-                    <label class="text-left" for="password"
-                      >Records
-                      <input
-                        type="text"
-                        name="records"
-                        [(ngModel)]="newWorkout.records"
-                    /></label>
-                    <div class="form-group">
-                      <label class="text-left" for="password"
-                        >Resources
-                        <input
-                          type="text"
-                          name="resources"
-                          [(ngModel)]="newWorkout.resources"
-                      /></label>
-                    </div>
-                  </div>
-                </div>
-                <hr />
-                <sub class="text-muted">* Annotates a Required Field</sub> <br>
-                <button
-                  type="submit"
-                  class="login-button btn btn-primary"
-                  (click)="addWorkout(newWorkout)"
-                  (click)="addWorkoutForm = null"
-                >
-                  Add Workout
-                </button>
-                <button
-                  type="submit"
-                  class="login-button btn btn-dark"
-                  (click)="addWorkoutForm = null"
-                >
-                  Cancel
-                </button>
-
-
-              </div>
-              <br />
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-</div>
-<!-- <div class="container">
-  <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-<form *ngIf="addWorkoutForm">
-  Workout Name:
-  <input
-    type="text"
-    name="workout"
-    [(ngModel)]="newWorkout.workout"
-    required
-  />*<br />
-  Category:
-  <input type="text" name="category" [(ngModel)]="newWorkout.category" /><br />
-  Target Muscle(s):
-  <input
-    type="text"
-    name="targetMuscle"
-    [(ngModel)]="newWorkout.targetMuscle"
-  /><br />
-  Completed On:
-  <input
-    type="date"
-    name="dateCompleted"
-    [(ngModel)]="newWorkout.dateCompleted"
-  /><br />
-  Description:
-  <input
-    type="text"
-    name="description"
-    [(ngModel)]="newWorkout.description"
-    required
-  />*<br />
-  Notes: <input type="text" name="notes" [(ngModel)]="newWorkout.notes" /><br />
-  Records:
-  <input type="text" name="records" [(ngModel)]="newWorkout.records" /><br />
-  Resources:
-  <input
-    type="text"
-    name="resources"
-    [(ngModel)]="newWorkout.resources"
-  /><br />
-  <sub class="text-muted">* Annotates a Required Field</sub>
-  <input type="submit" (click)="addWorkoutForm = null" value="Cancel" />
-  <input type="submit" (click)="addWorkout(newWorkout)" value="Save" />
-</form> -->
-<!-- </div>
-</div> -->
-
-<!-- <hr />
-<div class="d-flex p-2">
-  <button class="btn btn-primary" (click)="setAddWorkout()">Add Workout</button>
-</div> -->
