@@ -1,16 +1,18 @@
 <h2 align="center">Workout Tracker</h2>
 
-
 <div class="jumbotron">
   <h1 class="display-4">Workout Tracker</h1>
   <p class="lead">
-    This is a simple workout tracker. Workouts can be added, deleted, and
-    edited. Click on a workout to see more details.
+    This is a simple workout tracker. Workouts can be added, edited, and
+    deleted. Click on a workout to see more details.
   </p>
   <hr class="my-4" />
-  <p>Feel free to explore my GitHub for more details on this project and others.</p>
+  <p>
+    Feel free to explore my GitHub for more details on this project and others.
+  </p>
   <p class="lead">
     <a
+      target="_blank"
       class="btn btn-primary btn-sm"
       href="https://github.com/tjteruel/EventTrackerProject"
       role="button"
@@ -21,24 +23,63 @@
 
 <!-- Displays individual data -->
 <div *ngIf="selected">
-  <h3>{{ selected.id }}) {{ selected.workout }}</h3>
-  <h4>
-    Category: {{ selected.category }} Target Muscle(s):
-    {{ selected.targetMuscle }}
-  </h4>
-  <h5>Completed on: {{ selected.dateCompleted }}</h5>
-  <p>{{ selected.description }}</p>
-  <p>{{ selected.notes }}</p>
-  <p>Records: {{ selected.records }}</p>
-  <p>Resources: {{ selected.resources }}</p>
-<hr>
-  <div *ngIf="!editWorkout" class="d-flex p-2">
-    <button class="btn btn-primary" (click)="displayTable(workouts)">
-      Show All Workouts
-    </button>
-    <button class="btn btn-primary" (click)="setEditWorkout()">
-      Edit Workout
-    </button>
+  <br /><br /><br />
+  <div class="container bg-faded py-3">
+    <h1 class="text-center">{{ selected.workout }}</h1>
+    <div class="row">
+      <div class="col text-center">
+        ID: {{ selected.id }} || Category: {{ selected.category }} || Target
+        Muscle(s): {{ selected.targetMuscle }}
+      </div>
+    </div>
+    <hr />
+
+    <hr />
+    <div class="row">
+      <div class="col-4 mx-auto">
+        <div class="card card-body mb-2">
+          <h6>Resources</h6>
+          <code>{{ selected.resources }}</code>
+        </div>
+      </div>
+      <div class="col-4 mx-auto">
+        <div class="card card-body mb-2">
+          <h6>Description</h6>
+          <code>{{ selected.description }}</code>
+        </div>
+      </div>
+      <div class="col-4 mx-auto">
+        <div class="card card-body mb-2">
+          <h6>Notes</h6>
+          <code>{{ selected.notes }}</code>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="container bg-faded py-3">
+      <div class="row">
+        <div class="col text-center">
+          Completed on: {{ selected.dateCompleted }} || Records:
+          {{ selected.records }}
+        </div>
+      </div>
+      <hr />
+      <div *ngIf="!editWorkout" class="container bg-faded py-3">
+        <div class="row">
+          <div class="col text-center">
+            <button class="btn btn-primary btn-sm" (click)="setEditWorkout()">
+              Edit Workout
+            </button>
+            <button
+              class="btn btn-primary btn-sm"
+              (click)="displayTable(workouts)"
+            >
+              Show All Workouts
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -205,120 +246,117 @@
   </div>
 </div>
 
-  <!-- Edit Workout Form -->
-  <div *ngIf="editWorkout">
-    <div class="container login-form-1">
-      <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-          <div class="card rounded shadow shadow-sm">
-            <div class="card-body">
-              <h4 class="card-title text-center mb-0">
-                <strong>Edit Workout</strong>
-              </h4>
+<!-- Edit Workout Form -->
+<div *ngIf="editWorkout">
+  <div class="container login-form-1">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card rounded shadow shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title text-center mb-0">
+              <strong>Edit Workout</strong>
+            </h4>
 
-              <hr />
-              <form
-                #loginForm="ngForm"
-                ngNativeValidate
-                id="login-form"
-                class="text-center"
-              >
-                <div class="login-form-main-message"></div>
-                <div class="main-login-form">
-                  <div class="login-group">
-                    <div class="form-group">
-                      <label class="text-left" for="username"
-                        >Workout Name
-                        <input
-                          type="text"
-                          name="workout"
-                          [(ngModel)]="editWorkout.workout"
-                      /></label>
-                    </div>
+            <hr />
+            <form
+              #loginForm="ngForm"
+              ngNativeValidate
+              id="login-form"
+              class="text-center"
+            >
+              <div class="login-form-main-message"></div>
+              <div class="main-login-form">
+                <div class="login-group">
+                  <div class="form-group">
+                    <label class="text-left" for="username"
+                      >Workout Name
+                      <input
+                        type="text"
+                        name="workout"
+                        [(ngModel)]="editWorkout.workout"
+                    /></label>
+                  </div>
+                  <div class="form-group">
+                    <label class="text-left" for="password"
+                      >Category
+                      <input
+                        type="text"
+                        name="category"
+                        [(ngModel)]="editWorkout.category"
+                    /></label>
+                  </div>
+                  <div class="form-group">
+                    <label class="text-left" for="password"
+                      >Target Muscle(s)
+                      <input
+                        type="text"
+                        name="targetMuscle"
+                        [(ngModel)]="editWorkout.targetMuscle"
+                    /></label>
+                  </div>
+                  <div class="form-group">
+                    <label class="text-left" for="password"
+                      >Completed On
+                      <input
+                        type="date"
+                        name="dateCompleted"
+                        [(ngModel)]="editWorkout.dateCompleted"
+                    /></label>
+                  </div>
+                  <div class="form-group">
+                    <label class="text-left" for="password"
+                      >Description
+                      <input
+                        type="text"
+                        name="description"
+                        [(ngModel)]="editWorkout.description"
+                    /></label>
+                  </div>
+                  <div class="form-group">
+                    <label class="text-left" for="password"
+                      >Notes
+                      <input
+                        type="text"
+                        name="notes"
+                        [(ngModel)]="editWorkout.notes"
+                    /></label>
+                  </div>
+                  <div class="form-group">
+                    <label class="text-left" for="password"
+                      >Records
+                      <input
+                        type="text"
+                        name="records"
+                        [(ngModel)]="editWorkout.records"
+                    /></label>
                     <div class="form-group">
                       <label class="text-left" for="password"
-                        >Category
+                        >Resources
                         <input
                           type="text"
-                          name="category"
-                          [(ngModel)]="editWorkout.category"
+                          name="resources"
+                          [(ngModel)]="editWorkout.resources"
                       /></label>
-                    </div>
-                    <div class="form-group">
-                      <label class="text-left" for="password"
-                        >Target Muscle(s)
-                        <input
-                          type="text"
-                          name="targetMuscle"
-                          [(ngModel)]="editWorkout.targetMuscle"
-                      /></label>
-                    </div>
-                    <div class="form-group">
-                      <label class="text-left" for="password"
-                        >Completed On
-                        <input
-                          type="date"
-                          name="dateCompleted"
-                          [(ngModel)]="editWorkout.dateCompleted"
-                      /></label>
-                    </div>
-                    <div class="form-group">
-                      <label class="text-left" for="password"
-                        >Description
-                        <input
-                          type="text"
-                          name="description"
-                          [(ngModel)]="editWorkout.description"
-                      /></label>
-                    </div>
-                    <div class="form-group">
-                      <label class="text-left" for="password"
-                        >Notes
-                        <input
-                          type="text"
-                          name="notes"
-                          [(ngModel)]="editWorkout.notes"
-                      /></label>
-                    </div>
-                    <div class="form-group">
-                      <label class="text-left" for="password"
-                        >Records
-                        <input
-                          type="text"
-                          name="records"
-                          [(ngModel)]="editWorkout.records"
-                      /></label>
-                      <div class="form-group">
-                        <label class="text-left" for="password"
-                          >Resources
-                          <input
-                            type="text"
-                            name="resources"
-                            [(ngModel)]="editWorkout.resources"
-                        /></label>
-                      </div>
                     </div>
                   </div>
-                  <hr />
-                  <br />
-                  <button
-                    class="btn btn-primary"
-                    (click)="updateWorkout(editWorkout)"
-                  >
-                    Save Changes
-                  </button>
-                  <button class="btn btn-dark" (click)="editWorkout = null">
-                    Cancel
-                  </button>
                 </div>
+                <hr />
                 <br />
-              </form>
-            </div>
+                <button
+                  class="btn btn-primary"
+                  (click)="updateWorkout(editWorkout)"
+                >
+                  Save Changes
+                </button>
+                <button class="btn btn-dark" (click)="editWorkout = null">
+                  Cancel
+                </button>
+              </div>
+              <br />
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
-
+</div>
