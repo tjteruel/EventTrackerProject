@@ -76,7 +76,7 @@ public class TestController {
 	}
 	
 	// delete Workout
-	@DeleteMapping("delete/{id}")
+	@DeleteMapping("workouts/delete/{id}")
 	public void deleteWorkout(@PathVariable Integer id,HttpServletResponse response) {
 		if (workSvc.deleteWorkout(id)) {
 			response.setStatus(204);

@@ -15,8 +15,10 @@ export class WorkoutListComponent implements OnInit {
   showComplete = false;
   workout = new Workout();
   workouts: Workout[]=[];
+  searchList: Workout[]=[];
   selected = null;
   addWorkoutForm = null;
+  searchForm = null;
 
   constructor(
     private workSvc: WorkoutService,
@@ -62,7 +64,7 @@ export class WorkoutListComponent implements OnInit {
     this.workSvc.index().subscribe(
       // data => this.todos = data,
       err => {
-        console.error('Error in our loadTodo() method. ' + err);
+        console.error('Error in our loadWorkouts() method. ' + err);
       }
     );
   }
@@ -81,7 +83,7 @@ export class WorkoutListComponent implements OnInit {
         this.editWorkout = null;
       },
       boo => {
-      console.error('workoutlistComp updating todo error');
+      console.error('workoutlistComp updating workout error');
       }
     );
   }
@@ -93,7 +95,7 @@ export class WorkoutListComponent implements OnInit {
         this.newWorkout = new Workout();
       },
       bad =>{
-        console.error('workoutListComponent.addWorkout(): error adding todo')
+        console.error('workoutListComponent.addWorkout(): error adding workout')
         console.error(bad);
       }
     );
@@ -109,6 +111,7 @@ export class WorkoutListComponent implements OnInit {
   }
 
   deleteWorkout(id){
+    console.log('component class' + id);
     this.workSvc.destroy(id).subscribe(
       yay => {
         this.reload();
@@ -122,6 +125,23 @@ export class WorkoutListComponent implements OnInit {
   setAddWorkout(){
     this.addWorkoutForm = Object.assign({}, this.selected);
   }
+
+  setSearch(){
+    this.searchForm = Object.assign({}, this.selected);
+  }
+
+  // searchWorkouts(keyword: String){
+  //   this.workSvc.searchByKeyword(keyword).subscribe(
+  //     good => {
+  //       this.reload();
+  //       this.searchList = new Workout();
+  //     },
+  //     bad =>{
+  //       console.error('workoutListComponent.searchWorkouts(): error searching')
+  //       console.error(bad);
+  //     }
+  //   );
+  // }
 
 
 

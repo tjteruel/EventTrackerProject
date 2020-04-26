@@ -17,6 +17,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AddmoduleComponent } from './components/addmodule/addmodule.component';
 
 @NgModule({
   declarations: [
@@ -29,14 +30,16 @@ import { RegisterComponent } from './components/register/register.component';
     LoginComponent,
     LogoutComponent,
     NavBarComponent,
-    RegisterComponent
+    RegisterComponent,
+    AddmoduleComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
   ],
   providers: [
     WorkoutService

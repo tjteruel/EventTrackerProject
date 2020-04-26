@@ -28,7 +28,7 @@ export class WorkoutService {
         'X-Requested-With': 'XMLHttpRequest'
       })
     };
-    return this.http.get<Workout[]>(this.url + '?sorted=true',httpOptions)
+    return this.http.get<Workout[]>(this.url + '?sorted=true')
       .pipe(
         catchError((err: any) => {
           console.log(err);
@@ -45,7 +45,7 @@ export class WorkoutService {
         'X-Requested-With': 'XMLHttpRequest'
       })
     };
-    return this.http.post<Workout>(this.url, data, httpOptions)
+    return this.http.post<Workout>(this.url, data)
     .pipe(
       catchError((err: any) => {
         console.log(err);
@@ -63,7 +63,7 @@ export class WorkoutService {
       })
     };
     console.log("show workout with id: "+ id);
-    return this.http.get<Workout>(`${this.url}/${id}`,httpOptions)
+    return this.http.get<Workout>(`${this.url}/${id}`)
     .pipe(
       catchError((err: any) => {
       console.log(err);
@@ -72,14 +72,15 @@ export class WorkoutService {
     )
   }
   destroy(workoutId:number){
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Basic ` + this.auth.getCredentials(),
-    //     'X-Requested-With': 'XMLHttpRequest'
-    //   })
-    // };
-    return this.http.delete<Workout>(this.url+ '/'+  workoutId)//,httpOptions)
+    console.log('workoutId' + workoutId);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Basic ` + this.auth.getCredentials(),
+        'X-Requested-With': 'XMLHttpRequest'
+      })
+    };
+    return this.http.delete<Workout>(this.url+ '/delete/'+  workoutId)
     .pipe(
       catchError((err: any) => {
         console.log(err);
@@ -88,11 +89,6 @@ export class WorkoutService {
     );
   }
   update(data: Workout, workoutId : number) {
-    // if(data.completed){
-    //   data.completeDate = this.datePipe.transform(Date.now(), 'shortDate');
-    // }else{
-    //   data.completeDate = '';
-    // }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -100,7 +96,7 @@ export class WorkoutService {
         'X-Requested-With': 'XMLHttpRequest'
       })
     };
-    return this.http.post<Workout>(this.url +'/'+ workoutId, data, httpOptions)
+    return this.http.post<Workout>(this.url +'/'+ workoutId, data)
     .pipe(
       catchError((err: any) => {
         console.log(err);
@@ -108,6 +104,17 @@ export class WorkoutService {
       })
     );
   }
+
+  searchByKeyword(keyword: String){
+    return this.http.get<Workout>(this.url + '/search/' + keyword)
+    .pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError('search method in workout service failed');
+      })
+    );
+  }
+
   }
 
 
